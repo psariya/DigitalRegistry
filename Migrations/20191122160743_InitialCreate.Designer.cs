@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalRegistry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191122041446_InitialCreate")]
+    [Migration("20191122160743_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace DigitalRegistry.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+Agencies", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.Agencies", b =>
                 {
                     b.Property<int>("agencies_id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace DigitalRegistry.Migrations
                     b.ToTable("Agencies");
                 });
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+All_Social_Media", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.All_Social_Media", b =>
                 {
                     b.Property<int>("page")
                         .ValueGeneratedOnAdd()
@@ -54,10 +54,10 @@ namespace DigitalRegistry.Migrations
 
                     b.HasKey("page");
 
-                    b.ToTable("socialMedia");
+                    b.ToTable("AllSocialMedia");
                 });
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+Social_Media", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.Social_Media", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -92,7 +92,7 @@ namespace DigitalRegistry.Migrations
                     b.ToTable("Social_Media");
                 });
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+Tags", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.Tags", b =>
                 {
                     b.Property<int>("tags_id")
                         .ValueGeneratedOnAdd()
@@ -109,23 +109,23 @@ namespace DigitalRegistry.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+Agencies", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.Agencies", b =>
                 {
-                    b.HasOne("DigitalRegistry.Models.EF_Models+Social_Media")
+                    b.HasOne("DigitalRegistry.Models.Social_Media")
                         .WithMany("agencies")
                         .HasForeignKey("Social_Mediaid");
                 });
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+Social_Media", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.Social_Media", b =>
                 {
-                    b.HasOne("DigitalRegistry.Models.EF_Models+All_Social_Media")
+                    b.HasOne("DigitalRegistry.Models.All_Social_Media")
                         .WithMany("results")
                         .HasForeignKey("All_Social_Mediapage");
                 });
 
-            modelBuilder.Entity("DigitalRegistry.Models.EF_Models+Tags", b =>
+            modelBuilder.Entity("DigitalRegistry.Models.Tags", b =>
                 {
-                    b.HasOne("DigitalRegistry.Models.EF_Models+Social_Media")
+                    b.HasOne("DigitalRegistry.Models.Social_Media")
                         .WithMany("tags")
                         .HasForeignKey("Social_Mediaid");
                 });

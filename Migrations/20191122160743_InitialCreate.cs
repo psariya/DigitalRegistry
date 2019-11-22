@@ -8,7 +8,7 @@ namespace DigitalRegistry.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "socialMedia",
+                name: "AllSocialMedia",
                 columns: table => new
                 {
                     page = table.Column<int>(nullable: false)
@@ -19,7 +19,7 @@ namespace DigitalRegistry.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_socialMedia", x => x.page);
+                    table.PrimaryKey("PK_AllSocialMedia", x => x.page);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,9 +44,9 @@ namespace DigitalRegistry.Migrations
                 {
                     table.PrimaryKey("PK_Social_Media", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Social_Media_socialMedia_All_Social_Mediapage",
+                        name: "FK_Social_Media_AllSocialMedia_All_Social_Mediapage",
                         column: x => x.All_Social_Mediapage,
-                        principalTable: "socialMedia",
+                        principalTable: "AllSocialMedia",
                         principalColumn: "page",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -120,7 +120,7 @@ namespace DigitalRegistry.Migrations
                 name: "Social_Media");
 
             migrationBuilder.DropTable(
-                name: "socialMedia");
+                name: "AllSocialMedia");
         }
     }
 }
