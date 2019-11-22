@@ -85,7 +85,7 @@ namespace DigitalRegistry.Controllers
         */
 
         //Priyanka is stuck here in this the method below. If you want to BUILD the project, comment this method below and then build.
-        public IActionResult PopulateSocialMedia()
+        /*public IActionResult PopulateSocialMedia()
         {
             // Retrieve the companies that were saved in the symbols method
             All_Social_Media sMedia = JsonConvert.DeserializeObject<All_Social_Media>(TempData["All_Social_Media"].ToString());
@@ -110,7 +110,7 @@ namespace DigitalRegistry.Controllers
             dbContext.SaveChanges();
             ViewBag.dbSuccessComp = 1;
             return View("Index", sMedia);
-        }
+        }*/
 
         public IActionResult Privacy()
         {
