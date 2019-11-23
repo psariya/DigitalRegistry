@@ -10,6 +10,7 @@ using DigitalRegistry.DataAccess;
 
 using Newtonsoft.Json;
 using System.Net.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigitalRegistry.Controllers
 {
@@ -17,8 +18,9 @@ namespace DigitalRegistry.Controllers
     {
         public ApplicationDbContext dbContext;
         string BASE_URL = "https://api.gsa.gov/technology/digital-registry/";
-        string API_KEY = "xFdELZAkSMn7Zl7QWyxchHhYWmyO9TDH0HmSKTXz";
+        string API_KEY = "UeBsvN5CGLCQ3RW4DMwqtcmnY1YdTWlNMd6VL69I";
         HttpClient httpClient;
+        string socialMediaList;// = "";
 
         public HomeController(ApplicationDbContext context)
         {
@@ -34,7 +36,7 @@ namespace DigitalRegistry.Controllers
         {
             //string Blogs_API_PATH = BASE_URL + "/blogs?api_key=";
             string SocialMedia_API_PATH = BASE_URL + "v1/social_media.json";
-            string socialMediaList = "";
+            //string socialMediaList = "";
             All_Social_Media socialMedia = null;
 
             // Connect to the IEXTrading API and retrieve information
@@ -51,6 +53,7 @@ namespace DigitalRegistry.Controllers
             if (!socialMediaList.Equals(""))
             {
                 socialMedia = JsonConvert.DeserializeObject<All_Social_Media>(socialMediaList);
+                //TempData["All_Social_Media"] = socialMediaList;
             }
 
             return socialMedia;
@@ -65,7 +68,7 @@ namespace DigitalRegistry.Controllers
             //Save sMedia in TempData, so they do not have to be retrieved again
             TempData["All_Social_Media"] = JsonConvert.SerializeObject(sMedia);
             
-            return View(sMedia);
+            return View(sMedia.results);
         }
 
         public IActionResult SocialMedia()
@@ -77,40 +80,32 @@ namespace DigitalRegistry.Controllers
             //Save companies in TempData, so they do not have to be retrieved again
             TempData["All_Social_Media"] = JsonConvert.SerializeObject(sMedia);
 
-            return View(sMedia);
+            return View(sMedia.results);
         }
 
-        /*
-            Save the available symbols in the database
-        */
-
-        //Priyanka is stuck here in this the method below. If you want to BUILD the project, comment this method below and then build.
-        /*public IActionResult PopulateSocialMedia()
+        public IActionResult PopulateSocialMedia()
         {
-            // Retrieve the companies that were saved in the symbols method
-            All_Social_Media sMedia = JsonConvert.DeserializeObject<All_Social_Media>(TempData["All_Social_Media"].ToString());
-            //Social_Media[] resultsArray = sMedia.results;
-            //resultsArray[] = sMedia.results[];
-            //int a = sMedia.count_;
-            dbContext.socialMedia.Add(Convert.ToInt32(sMedia.page));
-            dbContext.socialMedia.Add(Convert.ToInt32(sMedia.page_size));
-            dbContext.socialMedia.Add(Convert.ToInt32(sMedia.pages));
-            dbContext.socialMedia.Add(Convert.ToInt32(sMedia.count_));
 
-            foreach (Social_Media s in resultsArray)
+            //All_Social_Media sMedia = JsonConvert.DeserializeObject<All_Social_Media>(socialMediaList);
+            All_Social_Media sMedia = GetSocialMedia();
+            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT All_Social_Media ON");
+            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Social_Media ON");
+            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Agencies ON");
+            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Tags ON");
+            foreach (Social_Media s in sMedia.results)
             {
-                //Database will give PK constraint violation error when trying to insert record with existing PK.
-                //So add company only if it doesnt exist, check existence using symbol (PK)
                 if (dbContext.Social_Media.Where(c => c.id.Equals(s.id)).Count() == 0)
                 {
                     dbContext.Social_Media.Add(s);
+                    //dbContext.Agencies.Add(s.agencies);
+
                 }
             }
-
+            //Priyanka is stuck here. Not able to save changes to database. SQL Identity_Insert is OFF error
             dbContext.SaveChanges();
             ViewBag.dbSuccessComp = 1;
-            return View("Index", sMedia);
-        }*/
+            return View("Index", sMedia.results);
+        }
 
         public IActionResult Privacy()
         {

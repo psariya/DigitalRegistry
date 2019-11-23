@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalRegistry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191122160743_InitialCreate")]
+    [Migration("20191123023236_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace DigitalRegistry.Migrations
 
                     b.HasKey("page");
 
-                    b.ToTable("AllSocialMedia");
+                    b.ToTable("All_Social_Media");
                 });
 
             modelBuilder.Entity("DigitalRegistry.Models.Social_Media", b =>

@@ -2,28 +2,52 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model DigitalRegistry.Models.All_Social_Media
+@model IEnumerable<DigitalRegistry.Models.Social_Media>
 
 <h2>Social Media</h2>
 <hr />
 
-@foreach (var item in Model.results)
-{
-    <div>
-        <h3>
-            @Html.DisplayFor(modelItem => item.service_display_name)
-        </h3>
-        <div>
-            @Html.DisplayFor(modelItem => item.language)
-        </div>
-        <a href="@item.service_url" target="_blank">
-            @Html.DisplayFor(modelItem => item.service_url)
-        </a>
-        <div>
-            <h5>Short Description: </h5>
-            @Html.DisplayFor(modelItem => item.short_description)
-        </div>
-    </div>
-    <br />
-}
+<tr>
+    <td>
+        <a id="dbopt" asp-controller="Home" asp-action="PopulateSocialMedia"><img src="~/img/Picture1.png" /></a>
+    </td>
+</tr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Account Platform
+            </th>
+            <th>
+                Account Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Last Updated
+            </th>
+        </tr>
+    </thead>
 
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.service_display_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.organization)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.short_description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.updated_at)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

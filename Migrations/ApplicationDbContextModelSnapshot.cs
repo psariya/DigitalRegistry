@@ -52,7 +52,7 @@ namespace DigitalRegistry.Migrations
 
                     b.HasKey("page");
 
-                    b.ToTable("AllSocialMedia");
+                    b.ToTable("All_Social_Media");
                 });
 
             modelBuilder.Entity("DigitalRegistry.Models.Social_Media", b =>
