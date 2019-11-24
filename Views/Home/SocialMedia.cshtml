@@ -1,0 +1,88 @@
+﻿@model IEnumerable<DigitalRegistry.Models.Social_Media>
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <br>
+
+    <h1 align="center">Social Media US Digital Registry</h1>
+
+    <br>
+    <div class="container">
+        <div class="topnav" id="myTopnav">
+            <a asp-controller="Home" asp-action="Index">Home</a>
+            <a class="active" asp-controller="Home" asp-action="SocialMedia">Social Media</a>
+            
+                <a asp-controller="Home" asp-action="AboutUs">About Project</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                </a>
+        </div>
+    </div>
+    <!--<script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>-->
+
+    <p>The U.S. is a country of 50 states covering a vast swath of North America, with Alaska in the northwest and Hawaii extending the nation’s presence into the Pacific Ocean. Major Atlantic Coast cities are New York, a global finance and culture center, and capital Washington, DC. Midwestern metropolis Chicago is known for influential architecture and on the west coast, Los Angeles' Hollywood is famed for filmmaking.</p>
+    <br>
+
+    <table class="table" id="t01">
+        <thead>
+            <tr>
+                <th>
+                    Account Platform
+                </th>
+                <th>
+                    Account Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Last Updated
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Service_display_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Organization)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Short_description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated_at)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+
+</html>
+<tr>
+    <td>
+        <a id="dbopt" asp-controller="Home" asp-action="PopulateSocialMedia"><img src="~/img/Picture1.png" /></a>
+    </td>
+</tr>

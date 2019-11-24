@@ -21,19 +21,19 @@ namespace DigitalRegistry.Migrations
 
             modelBuilder.Entity("DigitalRegistry.Models.Agencies", b =>
                 {
-                    b.Property<int>("agencies_id")
+                    b.Property<int>("a_id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Social_Mediaid");
+                    b.Property<string>("Info_url");
 
-                    b.Property<string>("info_url");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("name");
+                    b.Property<int?>("Social_MediaId");
 
-                    b.HasKey("agencies_id");
+                    b.HasKey("a_id");
 
-                    b.HasIndex("Social_Mediaid");
+                    b.HasIndex("Social_MediaId");
 
                     b.ToTable("Agencies");
                 });
@@ -57,33 +57,33 @@ namespace DigitalRegistry.Migrations
 
             modelBuilder.Entity("DigitalRegistry.Models.Social_Media", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Account");
+
                     b.Property<int?>("All_Social_Mediapage");
 
-                    b.Property<string>("account");
+                    b.Property<string>("Created_at");
 
-                    b.Property<string>("created_at");
+                    b.Property<string>("Language");
 
-                    b.Property<string>("language");
+                    b.Property<string>("Long_description");
 
-                    b.Property<string>("long_description");
+                    b.Property<string>("Organization");
 
-                    b.Property<string>("organization");
+                    b.Property<string>("Service_display_name");
 
-                    b.Property<string>("service_display_name");
+                    b.Property<string>("Service_key");
 
-                    b.Property<string>("service_key");
+                    b.Property<string>("Service_url");
 
-                    b.Property<string>("service_url");
+                    b.Property<string>("Short_description");
 
-                    b.Property<string>("short_description");
+                    b.Property<string>("Updated_at");
 
-                    b.Property<string>("updated_at");
-
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("All_Social_Mediapage");
 
@@ -92,17 +92,17 @@ namespace DigitalRegistry.Migrations
 
             modelBuilder.Entity("DigitalRegistry.Models.Tags", b =>
                 {
-                    b.Property<int>("tags_id")
+                    b.Property<int>("t_id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Social_Mediaid");
+                    b.Property<int?>("Social_MediaId");
 
-                    b.Property<string>("tag_text");
+                    b.Property<string>("Tag_text");
 
-                    b.HasKey("tags_id");
+                    b.HasKey("t_id");
 
-                    b.HasIndex("Social_Mediaid");
+                    b.HasIndex("Social_MediaId");
 
                     b.ToTable("Tags");
                 });
@@ -111,13 +111,13 @@ namespace DigitalRegistry.Migrations
                 {
                     b.HasOne("DigitalRegistry.Models.Social_Media")
                         .WithMany("agencies")
-                        .HasForeignKey("Social_Mediaid");
+                        .HasForeignKey("Social_MediaId");
                 });
 
             modelBuilder.Entity("DigitalRegistry.Models.Social_Media", b =>
                 {
                     b.HasOne("DigitalRegistry.Models.All_Social_Media")
-                        .WithMany("results")
+                        .WithMany("Results")
                         .HasForeignKey("All_Social_Mediapage");
                 });
 
@@ -125,7 +125,7 @@ namespace DigitalRegistry.Migrations
                 {
                     b.HasOne("DigitalRegistry.Models.Social_Media")
                         .WithMany("tags")
-                        .HasForeignKey("Social_Mediaid");
+                        .HasForeignKey("Social_MediaId");
                 });
 #pragma warning restore 612, 618
         }

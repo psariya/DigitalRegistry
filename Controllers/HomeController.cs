@@ -34,12 +34,12 @@ namespace DigitalRegistry.Controllers
 
         public All_Social_Media GetSocialMedia()
         {
-            //string Blogs_API_PATH = BASE_URL + "/blogs?api_key=";
+            
             string SocialMedia_API_PATH = BASE_URL + "v1/social_media.json";
-            //string socialMediaList = "";
+            
             All_Social_Media socialMedia = null;
 
-            // Connect to the IEXTrading API and retrieve information
+            // Connect to the API and retrieve information
             httpClient.BaseAddress = new Uri(SocialMedia_API_PATH);
             HttpResponseMessage response = httpClient.GetAsync(SocialMedia_API_PATH).GetAwaiter().GetResult();
 
@@ -52,8 +52,18 @@ namespace DigitalRegistry.Controllers
             // Parse the Json strings as C# objects
             if (!socialMediaList.Equals(""))
             {
-                socialMedia = JsonConvert.DeserializeObject<All_Social_Media>(socialMediaList);
-                //TempData["All_Social_Media"] = socialMediaList;
+                /*try
+                {
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.MissingMemberHandling = MissingMemberHandling.Error;*/
+
+                socialMedia = JsonConvert.DeserializeObject<All_Social_Media>(socialMediaList);//, settings);
+                /*}
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.GetType().Name + ": " + ex.Message);
+                }*/
+
             }
 
             return socialMedia;
@@ -62,13 +72,10 @@ namespace DigitalRegistry.Controllers
         public IActionResult Index()
         {
             //Set ViewBag variable first
-            ViewBag.dbSuccessComp = 0;
-            All_Social_Media sMedia = GetSocialMedia();
+            //ViewBag.dbSuccessComp = 0;
+            //All_Social_Media sMedia = GetSocialMedia();
 
-            //Save sMedia in TempData, so they do not have to be retrieved again
-            TempData["All_Social_Media"] = JsonConvert.SerializeObject(sMedia);
-            
-            return View(sMedia.results);
+            return View();// sMedia.results);
         }
 
         public IActionResult SocialMedia()
@@ -77,34 +84,43 @@ namespace DigitalRegistry.Controllers
             ViewBag.dbSuccessComp = 0;
             All_Social_Media sMedia = GetSocialMedia();
 
-            //Save companies in TempData, so they do not have to be retrieved again
-            TempData["All_Social_Media"] = JsonConvert.SerializeObject(sMedia);
-
-            return View(sMedia.results);
+            return View(sMedia.Results);
         }
 
         public IActionResult PopulateSocialMedia()
         {
 
-            //All_Social_Media sMedia = JsonConvert.DeserializeObject<All_Social_Media>(socialMediaList);
             All_Social_Media sMedia = GetSocialMedia();
-            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT All_Social_Media ON");
-            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Social_Media ON");
-            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Agencies ON");
-            dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Tags ON");
-            foreach (Social_Media s in sMedia.results)
-            {
-                if (dbContext.Social_Media.Where(c => c.id.Equals(s.id)).Count() == 0)
-                {
-                    dbContext.Social_Media.Add(s);
-                    //dbContext.Agencies.Add(s.agencies);
-
-                }
-            }
-            //Priyanka is stuck here. Not able to save changes to database. SQL Identity_Insert is OFF error
+                        
+                    foreach (Social_Media s in sMedia.Results)
+                    {
+                        if (dbContext.Social_Media.Where(c => c.Id.Equals(s.Id)).Count() == 0)
+                        {
+                            foreach (Agencies a in s.agencies)
+                            {
+                            //    if (dbContext.Agencies.Where(d => d.id.Equals(a.id)).Count() == 0)
+                            //    {
+                                    dbContext.Agencies.Add(a);
+                            //    }
+                            }
+                            foreach (Tags t in s.tags)
+                            {
+                            //    if (dbContext.Tags.Where(b => b.id.Equals(t.id)).Count() == 0)
+                            //    {
+                                    dbContext.Tags.Add(t);
+                            //    }
+                            }
+                            dbContext.Social_Media.Add(s);
+                        }
+                    }
             dbContext.SaveChanges();
             ViewBag.dbSuccessComp = 1;
-            return View("Index", sMedia.results);
+            return View("SocialMedia", sMedia.Results);
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View("AboutUs");
         }
 
         public IActionResult Privacy()
